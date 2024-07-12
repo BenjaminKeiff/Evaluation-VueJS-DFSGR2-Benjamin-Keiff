@@ -1,6 +1,5 @@
 <template>
   <div class="bills">
-    <!-- titre et bouton ajouter -->
     <div class="row border-bottom pb-3 mb-3">
       <div class="col">
         <h1 class="h3"><i class="fa-solid fa-angle-down me-2" />Liste de nos chers clients</h1>
@@ -12,18 +11,7 @@
         </button>
       </div>
     </div>
-
-    <!-- tableau des factures -->
     <ClientList v-if="!loading && clients">
-      <!-- exemple pour personnaliser les th du tableau TableList : -->
-      <!-- <template #thead>
-        <th>test</th>
-        <th>test</th>
-        <th>test</th>
-        <th>test</th>
-        <th>test</th>
-        <th>test</th>
-      </template> -->
       <ClientTableRow
         v-for="client in clients"
         :key="client.id"

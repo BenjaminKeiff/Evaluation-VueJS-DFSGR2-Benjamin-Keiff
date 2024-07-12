@@ -215,19 +215,15 @@ export default {
     }
   },
   mounted() {
-    // avant de monter le composant de la vue, on charge les données de la facture à éditer
     this.setClient(this.id)
   },
   computed: {
     ...mapState(useClientStore, {
       loading: 'loading'
     }),
-    // le formulaire local 'bill' est mappé sur la donnée du store 'item'
-    // attention, pour pouvoir modifier les données d'un état du store (stae), il faut utiliser mpaWritableState plutôt que mapState (qui est pour la lecture seule)
     ...mapWritableState(useClientStore, {
       client: 'item'
     }),
-    // ici on a une computed classique
     isNewClient() {
       return this.id === 'new'
     },
@@ -237,7 +233,6 @@ export default {
     }
   },
   methods: {
-    // pour pouvoir appeler une action du store, il faut l'importer et ici on lui donne un nom local différent 'setBill'
     ...mapActions(useClientStore, {
       setClient: 'setItem',
       updateClient: 'updateItem',
@@ -245,32 +240,15 @@ export default {
       deleteClient: 'deleteItem'
     }),
 
-    updateTotal() {
-      // if (this.client) {
-      //   this.client.totalHT = 0
-      //   for (const prestation of this.client.prestations) {
-      //     this.client.totalHT += prestation.qty * prestation.price
-      //   }
-      //   this.client.totalTTC =
-      //     this.client.totalHT +
-      //     (this.client.totalHT * this.client.tva) / 100 -
-      //     this.client.discount -
-      //     this.client.paid
-      // }
-    },
-
     onDeleteClient() {
       this.deleteClient(this.id)
       this.$router.push({ name: 'clients' })
     },
     onSave() {
-      // si j'ai une erreur dans le formulaire
       if (this.formInvalid) {
-        // gestion des erreurs ici
         this.error = true
       } else {
         this.error = false
-        // on appelle la méthode de sauvegarde de la donnée du store
         if (this.isNewClient) {
           console.log('create', this.client)
           this.createClient(this.client)
@@ -278,7 +256,6 @@ export default {
           console.log('update', this.client)
           this.updateClient(this.client)
         }
-        // on revient sur la page précédente
         this.$router.push({ name: 'clients' })
       }
     }
