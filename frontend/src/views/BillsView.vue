@@ -40,8 +40,8 @@
 </template>
 
 <script>
+import TableList from '@/components/tables/BillTableList.vue'
 import BillTableRow from '@/components/tables/BillTableRow.vue'
-import TableList from '@/components/tables/TableList.vue'
 import { useBillStore } from '@/stores/bill'
 import { mapActions, mapState } from 'pinia'
 export default {

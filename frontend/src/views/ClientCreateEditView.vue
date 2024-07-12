@@ -1,15 +1,15 @@
 <template>
   <div>
-    <div class="bill" v-if="!loading && bill">
+    <div class="bill" v-if="!loading && client">
       <div class="row border-bottom pb-3 mb-3">
         <div class="col">
-          <h1 v-if="isNewBill" class="h3">
+          <h1 v-if="isNewClient" class="h3">
             <i class="fa-solid fa-angle-down me-2" />Créer une facture
           </h1>
           <h1 v-else class="h3"><i class="fa-solid fa-angle-down me-2" />Editer une facture</h1>
         </div>
-        <div v-if="!isNewBill" class="col text-end">
-          <button @click="onDeleteBill(bill)" class="btn btn-outline-danger">
+        <div v-if="!isNewClient" class="col text-end">
+          <button @click="onDeleteClient(client)" class="btn btn-outline-danger">
             <i class="fa-solid fa-trash me-2" />
             Supprimer la facture
           </button>
@@ -25,10 +25,10 @@
               type="text"
               name="billnum"
               id="billnum"
-              v-model="bill.billnum"
+              v-model="client.billnum"
               class="form-control"
               placeholder="Facture N°"
-              :class="{ 'is-invalid': !bill.billnum }"
+              :class="{ 'is-invalid': !client.billnum }"
             />
             <label for="billnum" class="form-label">Facture N°</label>
           </div>
@@ -279,10 +279,9 @@
 </template>
 
 <script>
-import TableList from '@/components/tables/BillTableList.vue'
-import { billPrestationInterface } from '@/interfaces/bill'
+import TableList from '@/components/tables/ClientTableList.vue'
 import { clients } from '@/seeds/clients.js'
-import { useBillStore } from '@/stores/bill'
+import { useClientStore } from '@/stores/client'
 import { mapActions, mapState, mapWritableState } from 'pinia'
 export default {
   components: {
@@ -302,16 +301,16 @@ export default {
   },
   mounted() {
     // avant de monter le composant de la vue, on charge les données de la facture à éditer
-    this.setBill(this.id)
+    this.setClient(this.id)
   },
   computed: {
-    ...mapState(useBillStore, {
+    ...mapState(useClientStore, {
       loading: 'loading'
     }),
     // le formulaire local 'bill' est mappé sur la donnée du store 'item'
     // attention, pour pouvoir modifier les données d'un état du store (stae), il faut utiliser mpaWritableState plutôt que mapState (qui est pour la lecture seule)
-    ...mapWritableState(useBillStore, {
-      bill: 'item'
+    ...mapWritableState(useClientStore, {
+      client: 'item'
     }),
     // ici on a une computed classique
     isNewBill() {
@@ -330,8 +329,8 @@ export default {
     },
     totalRow() {
       return (index) => {
-        if (this.bill) {
-          const prestation = this.bill.prestations[index]
+        if (this.client) {
+          const prestation = this.client.prestations[index]
           return prestation.qty * prestation.price
         }
       }
@@ -339,40 +338,30 @@ export default {
   },
   methods: {
     // pour pouvoir appeler une action du store, il faut l'importer et ici on lui donne un nom local différent 'setBill'
-    ...mapActions(useBillStore, {
-      setBill: 'setItem',
-      updateBill: 'updateItem',
-      createBill: 'createItem',
-      deleteBill: 'deleteItem'
+    ...mapActions(useClientStore, {
+      setClient: 'setItem',
+      updateClient: 'updateItem',
+      createClient: 'createItem',
+      deleteClient: 'deleteItem'
     }),
 
-    onAddPrestation(index) {
-      // ajout d'une prestation sous l'élément courant dans le tableau
-      this.bill.prestations.splice(index + 1, 0, { ...billPrestationInterface })
-    },
-
-    onRemovePrestation(index) {
-      // suppression d'une prestation
-      this.bill.prestations.splice(index, 1)
-    },
-
     updateTotal() {
-      if (this.bill) {
-        this.bill.totalHT = 0
-        for (const prestation of this.bill.prestations) {
-          this.bill.totalHT += prestation.qty * prestation.price
+      if (this.client) {
+        this.client.totalHT = 0
+        for (const prestation of this.client.prestations) {
+          this.client.totalHT += prestation.qty * prestation.price
         }
-        this.bill.totalTTC =
-          this.bill.totalHT +
-          (this.bill.totalHT * this.bill.tva) / 100 -
-          this.bill.discount -
-          this.bill.paid
+        this.client.totalTTC =
+          this.client.totalHT +
+          (this.client.totalHT * this.client.tva) / 100 -
+          this.client.discount -
+          this.client.paid
       }
     },
 
-    onDeleteBill() {
-      this.deleteBill(this.id)
-      this.$router.push({ name: 'bills' })
+    onDeleteClient() {
+      this.deleteClient(this.id)
+      this.$router.push({ name: 'clients' })
     },
     onSave() {
       // si j'ai une erreur dans le formulaire
@@ -382,32 +371,32 @@ export default {
       } else {
         this.error = false
         // on appelle la méthode de sauvegarde de la donnée du store
-        if (this.isNewBill) {
-          console.log('create', this.bill)
-          this.createBill(this.bill)
+        if (this.isNewClient) {
+          console.log('create', this.client)
+          this.createClient(this.client)
         } else {
-          console.log('update', this.bill)
-          this.updateBill(this.bill)
+          console.log('update', this.client)
+          this.updateClient(this.client)
         }
         // on revient sur la page précédente
-        this.$router.push({ name: 'bills' })
+        this.$router.push({ name: 'clients' })
       }
     }
   },
   watch: {
     // à chaque mise à jour des prestations, je mets à jour le total
-    'bill.prestations': {
+    'client.prestations': {
       handler() {
         this.updateTotal()
       },
       deep: true
     },
     // de même sur la remise client
-    'bill.discount'() {
+    'client.discount'() {
       this.updateTotal()
     },
     // de même sur le déjà payé
-    'bill.paid'() {
+    'client.paid'() {
       this.updateTotal()
     }
   }

@@ -1,9 +1,9 @@
-import { billInterface } from '@/interfaces/bill'
+import { clientInterface } from '@/interfaces/client'
 import { defineStore } from 'pinia'
 
 // si je veux interragir avec un autre store, il suffit de l'importer
 
-export const useBillStore = defineStore('bill', {
+export const useClientStore = defineStore('client', {
   state: () => ({
     items: null, //la liste des factures utilisées dans BillsView
     item: null, //formulaire d'édition utilisé dans CreateEditBillView
@@ -13,10 +13,10 @@ export const useBillStore = defineStore('bill', {
   actions: {
     // on charge la liste des factures depuis la route d'api GET http://127.0.0.1/bills
     async getItems() {
-      console.log('fetch bills')
+      console.log('fetch clients')
       this.loading = true
       try {
-        const response = await this.$http.get('/bills')
+        const response = await this.$http.get('/clients')
         this.items = response.data
         this.loading = false
       } catch (error) {
@@ -38,12 +38,12 @@ export const useBillStore = defineStore('bill', {
       // et l'édition d'une facture existante
       if (id === 'new') {
         // si c'est une nouvelle facture, j'utilise un objet tout neuf de mon interface d'objet pour une facture
-        this.item = { ...billInterface }
+        this.item = { ...clientInterface }
       } else {
         // sinon, j'utilise les données de la facture existante dans la liste des factures
         this.loading = true
         try {
-          const response = await this.$http.get('/bills/' + id)
+          const response = await this.$http.get('/clients/' + id)
           this.item = response.data
           this.loading = false
         } catch (error) {
@@ -57,7 +57,7 @@ export const useBillStore = defineStore('bill', {
     async updateItem(form) {
       this.loading = true
       try {
-        const response = await this.$http.patch('/bills/' + form.id, form)
+        const response = await this.$http.patch('/clients/' + form.id, form)
         console.log(response.data)
         await this.getItems()
         this.loading = false
@@ -70,7 +70,7 @@ export const useBillStore = defineStore('bill', {
     async createItem(form) {
       this.loading = true
       try {
-        const response = await this.$http.post('/bills', form)
+        const response = await this.$http.post('/clients', form)
         console.log(response.data)
         await this.getItems()
         // this.item = { ...response.data }
@@ -85,7 +85,7 @@ export const useBillStore = defineStore('bill', {
     async deleteItem(id) {
       this.loading = true
       try {
-        const response = await this.$http.delete('/bills/' + id)
+        const response = await this.$http.delete('/clients/' + id)
         console.log(response.data)
         await this.getItems()
         this.loading = false
