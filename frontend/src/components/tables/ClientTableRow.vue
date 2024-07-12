@@ -27,10 +27,10 @@ export default {
   },
   methods: {
     onDelete() {
-      this.$emit('delete', this.bill)
+      this.$emit('delete', this.client)
     },
     onEdit() {
-      this.$emit('edit', this.bill)
+      this.$emit('edit', this.client)
     }
   }
 }
