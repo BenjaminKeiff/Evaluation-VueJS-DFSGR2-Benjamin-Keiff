@@ -29,6 +29,7 @@
         :key="bill.id"
         :bill="bill"
         @edit="$router.push({ name: 'edit-bill', params: { id: $event.id } })"
+        :isDeletable=true
         @delete="deleteBill($event.id)"
       />
     </TableList>

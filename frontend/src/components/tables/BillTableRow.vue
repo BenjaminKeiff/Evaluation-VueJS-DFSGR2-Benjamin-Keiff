@@ -6,9 +6,11 @@
     <td class="align-middle text-end">{{ bill.totalHT.toFixed(2) }} HT</td>
     <td class="align-middle text-end">{{ bill.totalTTC.toFixed(2) }} TTC</td>
     <td class="align-middle d-flex gap-2 justify-content-end align-items-center">
-      <button @click="onDelete()" class="btn btn-outline-danger">
-        <i class="fa-solid fa-trash me-2" />Supprimer
-      </button>
+      <div v-if="isDeletable">
+        <button @click="onDelete()" class="btn btn-outline-danger">
+          <i class="fa-solid fa-trash me-2" />Supprimer
+        </button>
+      </div>
       <button @click="onEdit()" class="btn btn-outline-info">
         <i class="fa-solid fa-pen me-2" />Editer
       </button>
@@ -22,7 +24,8 @@ export default {
     bill: {
       type: Object,
       required: true
-    }
+    },
+    isDeletable: Boolean
   },
   emits: ['delete', 'edit'],
   computed: {

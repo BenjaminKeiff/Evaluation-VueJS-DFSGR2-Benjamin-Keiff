@@ -17,6 +17,7 @@
         :key="client.id"
         :client="client"
         @edit="$router.push({ name: 'edit-client', params: { id: $event.id } })"
+        :isDeletable="true"
         @delete="deleteClient($event.id)"
       />
     </ClientList>
@@ -31,7 +32,7 @@
 
 <script>
 import ClientList from '@/components/tables/ClientTableList.vue'
-import ClientTableRow from '@/components/tables/ClientTableRow.vue';
+import ClientTableRow from '@/components/tables/ClientTableRow.vue'
 import { useClientStore } from '@/stores/client'
 import { mapActions, mapState } from 'pinia'
 export default {
