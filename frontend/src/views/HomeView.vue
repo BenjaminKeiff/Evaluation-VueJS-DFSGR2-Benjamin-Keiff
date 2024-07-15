@@ -6,7 +6,7 @@
     <div class="container">
       <div class="row">
         <div class="col-30">
-          <div class="p-3 border">
+          <div v-if="!loading && bills" class="p-3 border">
             <h2>{{ bills.length }} Factures en 2024</h2>
           </div>
         </div>
@@ -29,7 +29,7 @@
               </button>
             </div>
           </div>
-          <div class="mt-3">
+          <div v-if="!loading && bills" class="mt-3">
             <h3 class="mb-2">Factures en cours</h3>
             <TableList v-if="bills">
               <BillTableRow
