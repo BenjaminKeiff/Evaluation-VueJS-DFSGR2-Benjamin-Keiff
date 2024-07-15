@@ -1,5 +1,5 @@
 <template>
-  <div class="bills">
+  <div class="clients">
     <div class="row border-bottom pb-3 mb-3">
       <div class="col">
         <h1 class="h3"><i class="fa-solid fa-angle-down me-2" />Liste de nos chers clients</h1>
@@ -21,7 +21,9 @@
       />
     </ClientList>
 
-    <div v-else>Loading...</div>
+    <div v-else>
+      <div class="loader"></div>
+    </div>
 
     <AppDebug :datas="clients" />
   </div>

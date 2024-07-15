@@ -4,8 +4,8 @@ import { defineStore } from 'pinia'
 export const useClientStore = defineStore('client', {
   state: () => ({
     items: null,
-    item: null, 
-    loading: false 
+    item: null,
+    loading: false
   }),
   getters: {},
   actions: {
@@ -15,10 +15,14 @@ export const useClientStore = defineStore('client', {
       try {
         const response = await this.$http.get('/clients')
         this.items = response.data
-        this.loading = false
+        setTimeout(() => {
+          this.loading = false
+        }, 500)
       } catch (error) {
         console.error(error)
-        this.loading = false
+        setTimeout(() => {
+          this.loading = false
+        }, 500)
       }
     },
     async setItem(id) {
@@ -29,10 +33,14 @@ export const useClientStore = defineStore('client', {
         try {
           const response = await this.$http.get('/clients/' + id)
           this.item = response.data
-          this.loading = false
+          setTimeout(() => {
+            this.loading = false
+          }, 500)
         } catch (error) {
           console.error(error)
-          this.loading = false
+          setTimeout(() => {
+            this.loading = false
+          }, 500)
         }
       }
     },
@@ -42,10 +50,14 @@ export const useClientStore = defineStore('client', {
         const response = await this.$http.patch('/clients/' + form.id, form)
         console.log(response.data)
         await this.getItems()
-        this.loading = false
+        setTimeout(() => {
+          this.loading = false
+        }, 500)
       } catch (error) {
         console.error(error)
-        this.loading = false
+        setTimeout(() => {
+          this.loading = false
+        }, 500)
       }
     },
     async createItem(form) {
@@ -54,10 +66,14 @@ export const useClientStore = defineStore('client', {
         const response = await this.$http.post('/clients', form)
         console.log(response.data)
         await this.getItems()
-        this.loading = false
+        setTimeout(() => {
+          this.loading = false
+        }, 500)
       } catch (error) {
         console.error(error)
-        this.loading = false
+        setTimeout(() => {
+          this.loading = false
+        }, 500)
       }
     },
     async deleteItem(id) {
@@ -66,10 +82,14 @@ export const useClientStore = defineStore('client', {
         const response = await this.$http.delete('/clients/' + id)
         console.log(response.data)
         await this.getItems()
-        this.loading = false
+        setTimeout(() => {
+          this.loading = false
+        }, 500)
       } catch (error) {
         console.error(error)
-        this.loading = false
+        setTimeout(() => {
+          this.loading = false
+        }, 500)
       }
     }
   }

@@ -18,10 +18,14 @@ export const useBillStore = defineStore('bill', {
       try {
         const response = await this.$http.get('/bills')
         this.items = response.data
-        this.loading = false
+        setTimeout(() => {
+          this.loading = false
+        }, 500)
       } catch (error) {
         console.error(error)
-        this.loading = false
+        setTimeout(() => {
+          this.loading = false
+        }, 500)
       }
     },
 
@@ -45,10 +49,14 @@ export const useBillStore = defineStore('bill', {
         try {
           const response = await this.$http.get('/bills/' + id)
           this.item = response.data
-          this.loading = false
+          setTimeout(() => {
+            this.loading = false
+          }, 500)
         } catch (error) {
           console.error(error)
-          this.loading = false
+          setTimeout(() => {
+            this.loading = false
+          }, 500)
         }
       }
     },
@@ -60,10 +68,14 @@ export const useBillStore = defineStore('bill', {
         const response = await this.$http.patch('/bills/' + form.id, form)
         console.log(response.data)
         await this.getItems()
-        this.loading = false
+        setTimeout(() => {
+          this.loading = false
+        }, 500)
       } catch (error) {
         console.error(error)
-        this.loading = false
+        setTimeout(() => {
+          this.loading = false
+        }, 500)
       }
     },
     // création d'une nouvelle facture
@@ -74,10 +86,14 @@ export const useBillStore = defineStore('bill', {
         console.log(response.data)
         await this.getItems()
         // this.item = { ...response.data }
-        this.loading = false
+        setTimeout(() => {
+          this.loading = false
+        }, 500)
       } catch (error) {
         console.error(error)
-        this.loading = false
+        setTimeout(() => {
+          this.loading = false
+        }, 500)
       }
     },
 
@@ -88,10 +104,14 @@ export const useBillStore = defineStore('bill', {
         const response = await this.$http.delete('/bills/' + id)
         console.log(response.data)
         await this.getItems()
-        this.loading = false
+        setTimeout(() => {
+          this.loading = false
+        }, 500)
       } catch (error) {
         console.error(error)
-        this.loading = false
+        setTimeout(() => {
+          this.loading = false
+        }, 500)
       }
     }
   }

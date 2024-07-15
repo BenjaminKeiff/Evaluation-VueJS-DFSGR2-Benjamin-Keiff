@@ -274,7 +274,9 @@
 
       <AppDebug :datas="bill" />
     </div>
-    <div v-else>loading...</div>
+    <div v-else>
+      <div class="loader"></div>
+    </div>
   </div>
 </template>
 

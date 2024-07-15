@@ -33,7 +33,9 @@
       />
     </TableList>
 
-    <div v-else>Loading...</div>
+    <div v-else>
+      <div class="loader"></div>
+    </div>
 
     <AppDebug :datas="bills" />
   </div>
